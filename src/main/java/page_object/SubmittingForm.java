@@ -1,5 +1,6 @@
 package page_object;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -20,38 +21,47 @@ public class SubmittingForm {
         this.driver = driver;
     }
 
+    @Step("Получить текст fullName из формы")
     public String getFullNameText() {
         return driver.findElement(fullName_value).getText();
     }
 
+    @Step("Получить текст email из формы")
     public String getEmailText() {
         return driver.findElement(email_value).getText();
     }
 
+    @Step("Получить текст gender из формы")
     public String getGenderText() {
         return driver.findElement(gender_value).getText();
     }
 
+    @Step("Получить текст mobile из формы")
     public String getMobileText() {
         return driver.findElement(mobile_value).getText();
     }
 
+    @Step("Получить текст birthDay из формы")
     public String getBirthDayText() {
         return driver.findElement(birthDay_value).getText();
     }
 
+    @Step("Получить текст subjects из формы")
     public String getSubjectText() {
         return driver.findElement(subjects_value).getText();
     }
 
+    @Step("Получить текст hobby из формы")
     public String getHobbyText() {
         return driver.findElement(hobby_value).getText();
     }
 
+    @Step("Получить текст address из формы")
     public String getAddressText() {
         return driver.findElement(address_value).getText();
     }
 
+    @Step("Получить текст location из формы")
     public String getLocationText() {
         return driver.findElement(location_value).getText();
     }

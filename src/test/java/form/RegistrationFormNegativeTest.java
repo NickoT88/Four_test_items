@@ -77,7 +77,7 @@ public class RegistrationFormNegativeTest {
 
     @ParameterizedTest(name = "Тестовые данные: {0},{1},{2},{3},{4}")
     @MethodSource("testDataForEmail")
-    @DisplayName("Негативные проверки обязательных полей регистрации студента")
+    @DisplayName("Негативные проверки для поля email")
     public void checkEmailWithNegativeDataNoVisibleSubForm(String firstName, String lastName, String email, String gender, String mobile) {
         RegistrationForm registrationForm = new RegistrationForm(driver);
         //открываем страницу
@@ -87,9 +87,9 @@ public class RegistrationFormNegativeTest {
         assertTrue(registrationForm.isVisibleTitle());
     }
 
-    @ParameterizedTest(name = "Тестовые данные: {0},{1},{2},{3},{4}")
+    @ParameterizedTest(name = "Тестовые данные: {0},{1},{2}")
     @MethodSource("testDataWithoutGender")
-    @DisplayName("Негативные проверки обязательных полей регистрации студента")
+    @DisplayName("Негативная проверка регистрации без выбора гендера")
     public void checkInputDataWithoutGenderNoVisibleSubForm(String firstName, String lastName, String mobile) {
         RegistrationForm registrationForm = new RegistrationForm(driver);
         //открываем страницу

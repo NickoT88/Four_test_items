@@ -1,5 +1,6 @@
 package page_object;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -29,18 +30,12 @@ public class RegistrationForm {
     private final By reading = By.xpath("//label[contains(.,'Reading')]"); //локатор reading
     private final By music = By.xpath("//label[contains(.,'Music')]"); //локатор music
     private final By currentAddress = By.xpath("//textarea[@id='currentAddress']"); //локатор поля day of currentAddress
-    private final By selectState = By.xpath("//*[@id='state']");//локатор списка selectState
-    private final By state = By.xpath("//div[@id='react-select-3-option-0']");
-    //локатор одного штата
-    private final By stateName = By.xpath("//*[@id= 'state']/div/div[1]/div[1] | //*[@class=' css-1uccc91-singleValue']"); //локатор для текста с названием штата
-    private final By selectCity = By.xpath("//*[@id='city']"); //локатор списка selectCity
-    private final By city = By.xpath("//div[@id='react-select-4-option-0']");
-    //локатор одного города
-    private final By cityName = By.xpath("//*[@class=' css-1uccc91-singleValue']"); //локатор для текста с названием штата
-    private final By submit = By.xpath("//button[@id='submit']");
-    //локатор года в выборе дня рождения
+    private final By selectState = By.xpath("//*[@id='state']");//локатор списка штатов
+    private final By state = By.xpath("//div[@id='react-select-3-option-0']"); //локатор штата NCR
+    private final By selectCity = By.xpath("//*[@id='city']"); //локатор списка городов
+    private final By city = By.xpath("//div[@id='react-select-4-option-0']"); //локатор города Delhi
+    private final By submit = By.xpath("//button[@id='submit']"); //локатор кнопки Submit
     private final By yearSelect = By.xpath("//select[@class='react-datepicker__year-select']"); //локатор поля год в выборе даты рождения
-
     private final By monthSelect = By.xpath("//select[@class='react-datepicker__month-select']"); //локатор поля месяц в выборе даты рождения
     private final By daySelect = By.xpath("//div[@class='react-datepicker__day react-datepicker__day--028']");
     private final By thanksForSub = By.xpath(("//div[@id='example-modal-sizes-title-lg']")); //локатор надписи Thanks for submitting the form
@@ -53,7 +48,8 @@ public class RegistrationForm {
         driver.get("https://demoqa.com/automation-practice-form");
     }
 
-    //рандомный выбор гендера
+
+    @Step("Рандомный выбор гендера")
     public String getGender() {
         String[] genders = {"Male", "Female", "Other"};
         Random rand = new Random();
@@ -62,16 +58,18 @@ public class RegistrationForm {
         return genders[randomIndex];
     }
 
-    //метод выбора локатора для гендера
+
+    @Step("Выбор локатора для гендера")
     public By getLocatorGender(String gender) {
         Map<String, By> genderLocators = new HashMap<>();
-        genderLocators.put("Male", By.xpath("//label[contains(.,'Male')]"));
-        genderLocators.put("Female", By.xpath("//label[contains(.,'Female')]"));
-        genderLocators.put("Other", By.xpath("//label[contains(.,'Other')]"));
+        genderLocators.put("Male", male);
+        genderLocators.put("Female", female);
+        genderLocators.put("Other", other);
         return genderLocators.get(gender);
     }
 
-    //выбрать в качестве предмета English
+
+    @Step("Выбрать в качестве предмета English")
     public void chooseSubjectEnglish() {
         WebElement selectSub = driver.findElement(subjects);
         selectSub.click();
@@ -79,7 +77,8 @@ public class RegistrationForm {
         driver.findElement(selectSubject).click();
     }
 
-    //метод от текущего года отнимает заданное кол-во лет и возвращает полученное значение типа String
+
+    @Step("Метод от текущего года отнимает заданное кол-во лет и возвращает полученное значение типа String")
     public String setYear(int minusYears) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy");
         Calendar calendar = Calendar.getInstance();
@@ -88,7 +87,8 @@ public class RegistrationForm {
         return dateFormat.format(newDate);
     }
 
-    //метод выбирает произвольный месяц
+
+    @Step("Выбирает произвольный месяц")
     public String selectMonth() {
         String[] months = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
         Random random = new Random();
@@ -96,14 +96,16 @@ public class RegistrationForm {
         return months[index];
     }
 
-    //метод возвращает месяц в зависимости от полученного значения (для проверки)
+
+    @Step("Возвращает месяц в зависимости от полученного значения (для проверки)")
     public String getMonth(String num) {
         int index = Integer.parseInt(num);
         String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         return months[index];
     }
 
-    //вводим дату рождения
+
+    @Step("Вводим дату рождения")
     public void enterBirthDate(String month, String year) {
         new WebDriverWait(driver, Duration.ofSeconds(5).toMillis())
                 .until(ExpectedConditions.elementToBeClickable(birthDay));
@@ -125,6 +127,7 @@ public class RegistrationForm {
         dateFieldSelection.sendKeys(Keys.ENTER);
     }
 
+    @Step("Вводим все данные для регистрации")
     public void inputData(String fName, String lName, String email, String gender, String tel, String month, int minusYears, String address) throws InterruptedException {
         driver.findElement(firstName).sendKeys(fName);
         driver.findElement(lastName).sendKeys(lName);
@@ -164,6 +167,7 @@ public class RegistrationForm {
 
     }
 
+    @Step("Вводим данные для регистрации без email")
     public void inputDataForNegativeCheckWithoutEmail(String fName, String lName, String gender, String tel) {
         driver.findElement(firstName).sendKeys(fName);
         driver.findElement(lastName).sendKeys(lName);
@@ -178,6 +182,7 @@ public class RegistrationForm {
         driver.findElement(submit).click();
     }
 
+    @Step("Вводим данные для регистрации, используя email")
     public void inputDataForNegativeCheckWithEmail(String fName, String lName, String email, String gender, String tel) {
         driver.findElement(firstName).sendKeys(fName);
         driver.findElement(lastName).sendKeys(lName);
@@ -195,6 +200,7 @@ public class RegistrationForm {
         driver.findElement(submit).click();
     }
 
+    @Step("Вводим данные для регистрации без email и гендера")
     public void inputDataForNegativeCheckWithoutEmaiAndGender(String fName, String lName, String tel) {
         driver.findElement(firstName).sendKeys(fName);
         driver.findElement(lastName).sendKeys(lName);
@@ -206,6 +212,7 @@ public class RegistrationForm {
         driver.findElement(submit).click();
     }
 
+    @Step("Возвращает логическое значение в зависимости виден ли итоговый баннер с данными или нет")
     public boolean isVisibleTitle() {
         // Поиск элементов, соответствующих заданному локатору
         List<WebElement> elements = driver.findElements(thanksForSub);
